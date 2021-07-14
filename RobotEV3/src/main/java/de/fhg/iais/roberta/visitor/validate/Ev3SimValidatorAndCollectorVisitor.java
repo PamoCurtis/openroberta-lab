@@ -4,12 +4,10 @@ import com.google.common.collect.ClassToInstanceMap;
 
 import de.fhg.iais.roberta.bean.IProjectBean;
 import de.fhg.iais.roberta.components.ConfigurationAst;
-import de.fhg.iais.roberta.syntax.action.speech.SayTextAction;
-import de.fhg.iais.roberta.syntax.action.speech.SetLanguageAction;
-import de.fhg.iais.roberta.syntax.sensor.generic.TimerSensor;
-import de.fhg.iais.roberta.visitor.hardware.IEv3Visitor;
+import de.fhg.iais.roberta.syntax.action.communication.BluetoothReceiveAction;
+import de.fhg.iais.roberta.typecheck.NepoInfo;
 
-public class Ev3SimValidatorAndCollectorVisitor extends CommonNepoValidatorAndCollectorVisitor implements IEv3Visitor<Void> {
+public class Ev3SimValidatorAndCollectorVisitor extends Ev3ValidatorAndCollectorVisitor {
     public Ev3SimValidatorAndCollectorVisitor(
         ConfigurationAst robotConfiguration,
         ClassToInstanceMap<IProjectBean.IBuilder<?>> beanBuilders) {
@@ -17,17 +15,8 @@ public class Ev3SimValidatorAndCollectorVisitor extends CommonNepoValidatorAndCo
     }
 
     @Override
-    public Void visitSetLanguageAction(SetLanguageAction<Void> setLanguageAction) {
-        return null;
-    }
-
-    @Override
-    public Void visitSayTextAction(SayTextAction<Void> sayTextAction) {
-        return null;
-    }
-
-    @Override
-    public Void visitTimerSensor(TimerSensor<Void> timerSensor) {
-        return null;
+    public Void visitBluetoothReceiveAction(BluetoothReceiveAction<Void> bluetoothReceiveAction) {
+        bluetoothReceiveAction.addInfo(NepoInfo.warning("SIM_BLOCK_NOT_SUPPORTED"));
+        return super.visitBluetoothReceiveAction(bluetoothReceiveAction);
     }
 }
